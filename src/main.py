@@ -1,22 +1,40 @@
+import pandas as pd
+
 from github_api import fetch_repos
-from analyzer import analyze_repos
-from visualization import plot_stars
+from ai_insights import generate_ai_insights
 
-def main():
-    print("\n🚀 GitHub AI Analyzer Starting...\n")
+print("🚀 GitHub AI Analyzer Starting...\n")
 
-    repos = fetch_repos("web framework", 10)
+# 1. Fetch GitHub data
+repos = fetch_repos()
 
-    if not repos:
-        print("No data fetched")
-        return
+# 2. Convert to DataFrame
+df = pd.DataFrame(repos)
 
-    analyze_repos(repos)
+# 3. Show basic data
+print(df[["name", "stars", "language"]])
 
-    print("\n📊 Generating visualization...")
-    plot_stars(repos)
+print("\n==============================")
+print("🤖 AI INSIGHTS")
+print("==============================\n")
 
-    print("\n✅ Done Successfully")
+# 4. Get AI insights safely
+insights = generate_ai_insights(df)
 
-if __name__ == "__main__":
-    main()
+# 5. Fallback if AI fails
+if isinstance(insights, str) and "Error" in insights:
+    print("⚠️ AI unavailable — using fallback insights\n")
+
+    insights = [
+        "Python is the most common language in top GitHub repositories.",
+        "Web frameworks dominate the open-source ecosystem.",
+        "FastAPI, Django, and Flask are leading Python frameworks.",
+        "High-star projects indicate strong community adoption trends."
+    ]
+
+# 6. Print results
+if isinstance(insights, list):
+    for i in insights:
+        print("-", i)
+else:
+    print(insights)
