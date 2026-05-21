@@ -1,0 +1,11 @@
+name,stars,forks,language,updated_at,url
+bootstrap,174262,78877,MDX,2026-05-21T08:29:38Z,https://github.com/twbs/bootstrap
+fastapi,98387,9323,Python,2026-05-21T08:24:12Z,https://github.com/fastapi/fastapi
+playwright,89118,5735,TypeScript,2026-05-21T08:37:18Z,https://github.com/microsoft/playwright
+gin,88555,8608,Go,2026-05-21T06:43:11Z,https://github.com/gin-gonic/gin
+django,87512,33933,Python,2026-05-21T08:19:30Z,https://github.com/django/django
+laravel,84309,24727,Blade,2026-05-21T08:26:53Z,https://github.com/laravel/laravel
+flask,71566,16851,Python,2026-05-21T08:20:16Z,https://github.com/pallets/flask
+express,69047,23393,JavaScript,2026-05-21T08:34:22Z,https://github.com/expressjs/express
+design-resources-for-developers,65598,12031,,2026-05-21T07:43:43Z,https://github.com/bradtraversy/design-resources-for-developers
+scrapy,61754,11559,Python,2026-05-21T08:31:04Z,https://github.com/scrapy/scrapy

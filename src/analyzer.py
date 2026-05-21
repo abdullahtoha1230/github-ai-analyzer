@@ -1,21 +1,37 @@
-import pandas as pd
+def analyze_repositories(df):
 
-def analyze_repos(repos):
-    df = pd.DataFrame(repos)
+    analysis = {}
 
-    # Sort by stars (most important metric)
-    df_sorted = df.sort_values(by="stars", ascending=False)
+    analysis["total_repositories"] = len(df)
 
-    print("\n==============================")
-    print("🔥 TOP GITHUB WEB FRAMEWORKS")
-    print("==============================\n")
+    analysis["top_language"] = (
+        df["language"]
+        .mode()[0]
+    )
 
-    print(df_sorted[["name", "stars", "forks", "language"]].to_string(index=False))
+    analysis["average_stars"] = int(
+        df["stars"].mean()
+    )
 
-    print("\n==============================")
-    print("📊 BASIC STATS")
-    print("==============================")
-    print("Total repositories:", len(df))
-    print("Most common language:", df["language"].mode()[0])
+    analysis["top_repository"] = (
+        df.sort_values(
+            by="stars",
+            ascending=False
+        ).iloc[0]
+    )
 
-    return df_sorted
+    analysis["most_forked"] = (
+        df.sort_values(
+            by="forks",
+            ascending=False
+        ).iloc[0]
+    )
+
+    analysis["most_active"] = (
+        df.sort_values(
+            by="updated_at",
+            ascending=False
+        ).iloc[0]
+    )
+
+    return analysis

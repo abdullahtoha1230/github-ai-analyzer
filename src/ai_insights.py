@@ -1,18 +1,15 @@
 import os
-import json
 from dotenv import load_dotenv
 from google import genai
 
 load_dotenv()
 
-client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+client = genai.Client(
+    api_key=os.getenv("GEMINI_API_KEY")
+)
 
 
 def generate_ai_insights(df):
-
-    # Clean + sort data for better AI input
-    df = df.dropna(subset=["language"])
-    df = df.sort_values(by="stars", ascending=False)
 
     repo_text = df.to_string(index=False)
 
@@ -23,28 +20,15 @@ Analyze this GitHub repository dataset:
 
 {repo_text}
 
-Return ONLY valid JSON in this format:
-
-{{
-  "trends": [
-    "trend 1",
-    "trend 2",
-    "trend 3"
-  ],
-  "languages": {{
-    "Python": 0,
-    "JavaScript": 0,
-    "Go": 0
-  }},
-  "insights": [
-    "insight 1",
-    "insight 2"
-  ],
-  "summary": "short overall summary"
-}}
+Return:
+- key technology trends
+- dominant languages
+- ecosystem insights
+- short summary
 """
 
     try:
+
         response = client.models.generate_content(
             model="gemini-2.0-flash",
             contents=prompt
@@ -52,5 +36,37 @@ Return ONLY valid JSON in this format:
 
         return response.text
 
-    except Exception as e:
-        return f"AI Error: {str(e)}"
+    except Exception:
+
+        top_language = (
+            df["language"]
+            .mode()[0]
+        )
+
+        top_repo = (
+            df.sort_values(
+                by="stars",
+                ascending=False
+            )
+            .iloc[0]["name"]
+        )
+
+        average_stars = int(
+            df["stars"].mean()
+        )
+
+        return f"""
+AI service is currently unavailable.
+
+Local  Analysis:
+
+• Most dominant language: {top_language}
+
+• Most popular repository: {top_repo}
+
+• Average repository stars: {average_stars}
+
+• The ecosystem shows strong interest in scalable web technologies and open-source frameworks.
+
+• Python and JavaScript ecosystems remain highly dominant in modern development.
+"""
